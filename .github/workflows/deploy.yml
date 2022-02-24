@@ -26,7 +26,7 @@ jobs:
           platforms: linux/amd64
           pull: true
           push: true
-          tags: ghcr.io/thelfensdrfer/emma-goossens:main
+          tags: ghcr.io/${{ github.repository_owner }}/emma-goossens:main
 
   deploy:
     runs-on: ubuntu-20.04
@@ -42,6 +42,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ secrets.DEPLOYMENT_PATH }}
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker-compose pull --quiet
             docker-compose stop
             docker-compose up -d
