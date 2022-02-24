@@ -1,17 +1,48 @@
-name: Gatsby Publish
+name: 'Build, push to GHCR and deploy'
 
 on:
   push:
     branches:
-      - main
+      - 'main'
 
 jobs:
   build:
     runs-on: ubuntu-20.04
+
     steps:
-      - uses: actions/checkout@v1
-      - uses: enriikke/gatsby-gh-pages-action@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
-          deploy-branch: gh-pages
-          working-dir: 'src'
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          file: ./src/Dockerfile
+          platforms: linux/amd64
+          pull: true
+          push: true
+          tags: ghcr.io/thelfensdrfer/emma-goossens:main
+
+  deploy:
+    runs-on: ubuntu-20.04
+    needs:
+      - build
+
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOYMENT_PATH }}
+            docker-compose pull --quiet
+            docker-compose stop
+            docker-compose up -d
+          command_timeout: '5m'
