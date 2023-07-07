@@ -1,7 +1,7 @@
 module.exports = {
     siteMetadata: {
-        title: `Emma Gooßens`,
-        siteUrl: `https://www.emma-goosens.de`
+        title: `Romi Gooßens`,
+        siteUrl: `https://www.romi-goosens.de`
     },
     plugins: [
         "gatsby-plugin-postcss",

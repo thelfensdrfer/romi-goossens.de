@@ -5,8 +5,8 @@ const IndexPage = () => {
         <div className="h-screen p-8">
             <div className="flex flex-col h-full">
                 <main className="flex-1">
-                    <title>Emma Gooßens</title>
-                    <h1 className="text-9xl text-center mt-4 underline decoration-pink-500">Emma Gooßens</h1>
+                    <title>Romi Gooßens</title>
+                    <h1 className="text-9xl text-center mt-4 underline decoration-pink-500">Romi Gooßens</h1>
                 </main>
 
                 <footer className="text-gray-500 text-right">
