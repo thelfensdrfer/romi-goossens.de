@@ -27,7 +27,7 @@ module.exports = {
             resolve: `gatsby-plugin-plausible`,
             options: {
                 domain: `romi-goossens.de`,
-                customDomain: `https://stats.codigy.de/js/script.js`,
+                customDomain: `stats.codigy.de/js/script.js?original=`,
             },
         }]
 };
