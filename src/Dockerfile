@@ -1,4 +1,4 @@
-FROM node:18 AS static
+FROM node:24 AS static
 
 RUN mkdir /app
 
